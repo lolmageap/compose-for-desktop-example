@@ -17,6 +17,7 @@ import io.ktor.client.engine.cio.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.swing.Swing
 import kotlinx.coroutines.withContext
 
 @Composable
@@ -42,7 +43,7 @@ fun loginScreen() {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth(0.8f)
+                modifier = Modifier.fillMaxWidth(0.8f),
             )
 
             Spacer(Modifier.height(8.dp))
@@ -53,7 +54,7 @@ fun loginScreen() {
                 label = { Text("Password") },
                 modifier = Modifier.fillMaxWidth(0.8f),
                 visualTransformation = PasswordVisualTransformation(),
-                singleLine = true
+                singleLine = true,
             )
 
             Spacer(Modifier.height(16.dp))
@@ -62,8 +63,7 @@ fun loginScreen() {
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         val login = requestToLogin(client, email, password)
-
-                        withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Swing) {
                             if (login.success) {
                                 loginMessage = "Login successful!"
                             } else {

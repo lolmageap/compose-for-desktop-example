@@ -20,6 +20,7 @@ dependencies {
     implementation("io.ktor:ktor-client-json:2.3.11")
     implementation("io.ktor:ktor-client-serialization:2.3.11")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
     implementation(compose.desktop.currentOs)
 }
 
