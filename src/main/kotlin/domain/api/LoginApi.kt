@@ -2,6 +2,7 @@ package domain.api
 
 import domain.model.LoginResponse
 import domain.model.User
+import domain.util.Validator
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -13,16 +14,24 @@ suspend fun requestToLogin(
     password: String,
 ) =
     try {
+        Validator.validateEmail(email)
+        Validator.validatePassword(password)
+
         val response = client.post("https://example.com/api/login") {
             contentType(ContentType.Application.Json)
-            setBody(mapOf("email" to email, "password" to password))
+            setBody(
+                mapOf(
+                    "email" to email,
+                    "password" to password
+                )
+            )
         }
 
         if (response.status == HttpStatusCode.OK) {
             val token = response.headers["Authorization"]
                 ?: throw IllegalHeaderValueException("Authorization header not found", 0)
 
-            val body: User = response.body()
+            val body = response.body<User>()
             LoginResponse.success(token, body)
         } else {
             LoginResponse.failure("Login failed")
