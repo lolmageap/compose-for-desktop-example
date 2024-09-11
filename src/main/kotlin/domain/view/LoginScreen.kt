@@ -19,14 +19,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
 import kotlinx.coroutines.withContext
+import javax.swing.JOptionPane
 
 @Composable
 @Preview
-fun loginScreen() {
+fun loginScreen(
+    onLoginSuccess: () -> Unit,
+    moveToSignUp: () -> Unit,
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var loginError by remember { mutableStateOf(false) }
-    var loginMessage by remember { mutableStateOf("") }
     val client = remember { HttpClient(CIO) }
 
     MaterialTheme {
@@ -35,7 +37,7 @@ fun loginScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Login", style = MaterialTheme.typography.h5)
+            Text("Baum Blog Login", style = MaterialTheme.typography.h5)
 
             Spacer(Modifier.height(16.dp))
 
@@ -43,7 +45,7 @@ fun loginScreen() {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier.fillMaxWidth(0.4f),
             )
 
             Spacer(Modifier.height(8.dp))
@@ -52,7 +54,7 @@ fun loginScreen() {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier.fillMaxWidth(0.4f),
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
             )
@@ -65,24 +67,33 @@ fun loginScreen() {
                         val login = requestToLogin(client, email, password)
                         withContext(Dispatchers.Swing) {
                             if (login.success) {
-                                loginMessage = "Login successful!"
+                                onLoginSuccess.invoke()
                             } else {
-                                loginError = true
-                                loginMessage = login.message
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    login.message,
+                                    "Login Error",
+                                    JOptionPane.ERROR_MESSAGE
+                                )
                             }
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth(0.8f)
+                modifier = Modifier.fillMaxWidth(0.4f)
             ) {
                 Text("Login")
             }
 
             Spacer(Modifier.height(8.dp))
 
-            if (loginError) {
-                Text("Invalid email or password", color = MaterialTheme.colors.error)
+            Button(
+                onClick = moveToSignUp,
+                modifier = Modifier.fillMaxWidth(0.4f)
+            ) {
+                Text("Sign Up")
             }
+
+            Spacer(Modifier.height(8.dp))
         }
     }
 }
