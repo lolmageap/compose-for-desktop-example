@@ -4,7 +4,7 @@ object Validator {
     fun validateEmail(
         value: String,
     ) {
-        val isSuccess = value.contains("@") && value.contains(".")
+        val isSuccess = value.contains("@bubaum.com")
         if (!isSuccess) throw IllegalArgumentException("Invalid email")
     }
 
