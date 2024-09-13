@@ -26,6 +26,7 @@ import javax.swing.JOptionPane
 @Preview
 fun signUpScreen(
     onSignUpSuccess: () -> Unit,
+    backToLogin: () -> Unit,
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -38,7 +39,7 @@ fun signUpScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Baum Blog Sign Up", style = MaterialTheme.typography.h5)
+            Text("Sign Up", style = MaterialTheme.typography.h5)
 
             Spacer(Modifier.height(16.dp))
 
@@ -90,9 +91,19 @@ fun signUpScreen(
                             }
                         }
                     }
-                }
+                },
+                modifier = Modifier.fillMaxWidth(0.4f)
             ) {
                 Text("Sign Up")
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Button(
+                onClick = { backToLogin.invoke() },
+                modifier = Modifier.fillMaxWidth(0.4f)
+            ) {
+                Text("Back to Login")
             }
         }
     }

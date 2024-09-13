@@ -37,7 +37,7 @@ fun loginScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Baum Blog Login", style = MaterialTheme.typography.h5)
+            Text("Login", style = MaterialTheme.typography.h5)
 
             Spacer(Modifier.height(16.dp))
 
@@ -64,18 +64,18 @@ fun loginScreen(
             Button(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        val login = requestToLogin(client, email, password)
+//                        val login = requestToLogin(client, email, password)
                         withContext(Dispatchers.Swing) {
-                            if (login.success) {
+//                            if (login.success) {
                                 onLoginSuccess.invoke()
-                            } else {
-                                JOptionPane.showMessageDialog(
-                                    null,
-                                    login.message,
-                                    "Login Error",
-                                    JOptionPane.ERROR_MESSAGE
-                                )
-                            }
+//                            } else {
+//                                JOptionPane.showMessageDialog(
+//                                    null,
+//                                    login.message,
+//                                    "Login Error",
+//                                    JOptionPane.ERROR_MESSAGE
+//                                )
+//                            }
                         }
                     }
                 },
