@@ -31,6 +31,7 @@ fun main() = application {
             )
             SIGN_UP -> signUpScreen(
                 onSignUpSuccess = { currentScreen = HOME },
+                backToLogin = { currentScreen = LOGIN },
             )
             HOME -> homeScreen()
         }
