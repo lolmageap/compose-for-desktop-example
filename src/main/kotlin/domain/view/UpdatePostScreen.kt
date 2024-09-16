@@ -2,8 +2,11 @@ package domain.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +17,8 @@ import domain.api.fetchImagesFromApi
 import domain.model.BlogImage
 
 @Composable
-fun homeScreen() {
+fun updatePostScreen() {
+    var text by remember { mutableStateOf("") }
     var blogImages by remember { mutableStateOf<List<BlogImage>>(emptyList()) }
 
     LaunchedEffect(Unit) { blogImages = fetchImagesFromApi() }
@@ -24,13 +28,21 @@ fun homeScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            if (blogImages.isEmpty()) {
-                Text("이미지 가져오는 중...", style = MaterialTheme.typography.body1)
-            } else {
-                blogImages.chunked(2).forEach { rowImages ->
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                label = { Text("게시판 제목") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Column {
+                blogImages.chunked(2).forEach {
                     Row(
                         modifier = Modifier
                             .wrapContentWidth()
@@ -38,7 +50,7 @@ fun homeScreen() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        rowImages.forEach { imageItem ->
+                        it.forEach { imageItem ->
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(8.dp)
@@ -56,9 +68,26 @@ fun homeScreen() {
                             }
                         }
                     }
+
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        BasicTextField(
+            value = text,
+            onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("게시판 내용")
+        }
+
+        Button(onClick = {
+
+        }) {
+            Text("수정하기")
         }
     }
 }

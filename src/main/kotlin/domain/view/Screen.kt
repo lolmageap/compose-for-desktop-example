@@ -5,4 +5,5 @@ enum class Screen {
     SIGN_UP,
     HOME,
     CREATE_POST,
+    UPDATE_POST,
 }

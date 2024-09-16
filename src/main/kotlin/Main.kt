@@ -12,11 +12,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import domain.view.*
 import domain.view.Screen.*
-import domain.view.homeScreen
-import domain.view.loginScreen
-import domain.view.createPostScreen
-import domain.view.signUpScreen
 
 fun main() = application {
     Window(
@@ -69,6 +66,7 @@ fun main() = application {
 
                         HOME -> homeScreen()
                         CREATE_POST -> createPostScreen()
+                        UPDATE_POST -> updatePostScreen()
                     }
                 }
             )
